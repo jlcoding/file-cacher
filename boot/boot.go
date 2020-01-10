@@ -1,8 +1,11 @@
 package boot
 
-import "github.com/gogf/gf/frame/g"
+import (
+	"file-cacher/config"
+	"github.com/gogf/gf/frame/g"
+)
 
 func init() {
-    g.Server().SetPort(8199)
+	g.Server().SetAddr(config.Config.Server.Address)
+	g.Server().SetPort(config.Config.Server.Port)
 }
-
