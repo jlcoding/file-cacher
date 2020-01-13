@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"github.com/gogf/gf/encoding/gtoml"
 	"github.com/gogf/gf/os/gfile"
 	"github.com/gogf/gf/os/glog"
@@ -51,7 +50,7 @@ func init() {
 	err := gtoml.DecodeTo(bytes, &Config)
 
 	if err != nil {
-		fmt.Println(err)
+		glog.Error(err)
 		return
 	}
 }

@@ -10,7 +10,6 @@ import (
 	"github.com/gogf/gf/os/gfile"
 	"github.com/gogf/gf/os/glog"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -49,7 +48,6 @@ func WriteToFile(path string, bytes []byte, suffix string) int {
 	size, err = file.Write(bytes)
 	if nil != err {
 		glog.Error("write file err", err)
-		glog.Info("write file result" + strconv.Itoa(size))
 	}
 	defer file.Close()
 	return size
@@ -97,4 +95,14 @@ func updateSha1(bytes []byte, filePath string) {
 	if "" == path {
 		db.Update(_const.BuildKey([]string{_const.SHA1_PATH, sha1}), filePath)
 	}
+}
+
+func GetDirTotalSize(path string) int64 {
+	var totalSize int64
+	fileList, _ := gfile.ScanDirFile(path, "*", true)
+	for _, v := range fileList {
+		info, _ := gfile.Info(v)
+		totalSize += info.Size()
+	}
+	return totalSize
 }

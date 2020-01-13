@@ -23,7 +23,6 @@ func (*Remote) Get(req *ghttp.Request) {
 	if "" == fileType {
 		fileType = "application/octet-stream"
 	}
-	glog.Info("fileType => " + fileType)
 	header.Set("Content-Type", fileType)
 
 	_, err := req.Response.Writer.Write(bytes)

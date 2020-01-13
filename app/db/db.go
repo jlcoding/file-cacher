@@ -2,7 +2,6 @@ package db
 
 import (
 	"file-cacher/config"
-	"fmt"
 	"github.com/dgraph-io/badger"
 	"github.com/gogf/gf/os/glog"
 )
@@ -51,7 +50,6 @@ func Get(key string) string {
 	if item, err := transaction.Get([]byte(key)); err == nil {
 		value, err := item.ValueCopy(nil)
 		if err == nil {
-			fmt.Println(value)
 			return string(value)
 		}
 	}
@@ -67,15 +65,20 @@ func Delete(key string) {
 	}
 }
 
-func List() {
+func List() []string {
+	var list []string
 	transaction := Client.NewTransaction(false)
 	defer transaction.Discard()
 	iter := badger.DefaultIteratorOptions
 	it := transaction.NewIterator(iter)
+	index := 0
+
 	for it.Rewind(); it.Valid(); it.Next() {
 		item := it.Item()
-		fmt.Printf("key: %s\n", item.Key())
 		value, _ := item.ValueCopy(nil)
-		fmt.Printf("value: %s\n", value)
+		list = append(list, string(value))
+		index++
 	}
+	it.Close()
+	return list
 }

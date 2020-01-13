@@ -8,13 +8,13 @@ import (
 
 type UrlDetail struct {
 	FileName string
-	Suffix string
-	Host string
+	Suffix   string
+	Host     string
 	Protocol string
-	Path string
+	Path     string
 }
 
-func (this *UrlDetail) ToString () string {
+func (this *UrlDetail) ToString() string {
 	return this.Protocol + "://" + this.Host + "/" + this.Path + "." + this.Suffix
 }
 
@@ -37,7 +37,7 @@ func GetSuffix(url string) string {
 }
 
 func Parse(url string) UrlDetail {
-	result := new (UrlDetail)
+	result := new(UrlDetail)
 	match, _ := gregex.MatchString(`(http|https)://(.+?)/(.+?)\.(.+)`, url)
 	fileName := GetFileName(url)
 
@@ -47,8 +47,7 @@ func Parse(url string) UrlDetail {
 	result.Suffix = match[4]
 	result.FileName = fileName
 
-	s := fmt.Sprintf(`protocol:%s, host:%s fileName:%s, suffix:%s`, result.Protocol, result.Host, result.FileName, result.Suffix)
-	fmt.Println(s)
+	fmt.Printf("protocol:%s, host:%s fileName:%s, suffix:%s", result.Protocol, result.Host, result.FileName, result.Suffix)
 
 	return *result
 }
